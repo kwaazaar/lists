@@ -35,4 +35,10 @@ export class ListsComponent implements OnInit {
     this.listService.addList(list)
       .subscribe(result => this.getListSummaries());
   }
+
+  delete(id: number): void {
+    // TODO
+    // this.listService.deleteList(id)
+    //   .subscribe(result => this.getListSummaries());
+  }
 }

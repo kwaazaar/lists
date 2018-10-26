@@ -10,7 +10,7 @@
 <p>Lists:</p>
 <ul class="lists">
   <li *ngFor="let list of lists">
-    <a routerLink="/detail/{{list.id}}">
+    <a routerLink="/lists/{{list.id}}">
       <span class="badge">{{list.id}}</span> {{list.name}}
     </a>
     <button class="delete" title="delete list" (click)="delete(list)">X</button>

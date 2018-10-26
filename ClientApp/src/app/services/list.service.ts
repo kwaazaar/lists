@@ -7,6 +7,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ListSummary } from '../models/list-summary';
 import { LogService } from './log.service';
 import { ListModel } from '../models/list-model';
+import { ListItem } from '../models/list-item';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,22 @@ export class ListService {
       .pipe(
         tap((item: ListModel) => this.log.info(`list ${item.name} created`)),
         catchError(this.handleError<ListModel>('addList'))
+      );
+  }
+
+  getList(id: number): Observable<ListModel> {
+    return this.http.get(`${this.baseUrl}${this.listApiUrl}/${id}`)
+      .pipe(
+        tap((item: ListModel) => this.log.info(`list ${item.name} retrieved`)),
+        catchError(this.handleError<ListModel>(`getList(id=${id})`))
+      );
+  }
+
+  upsertListItem(listItem: ListItem): Observable<ListItem> {
+    return this.http.post(`${this.baseUrl}${this.listApiUrl}/${listItem.listId}`, listItem, this.httpOptions)
+      .pipe(
+        tap((item: ListItem) => this.log.info(`listitem ${item.question} created/updated`)),
+        catchError(this.handleError<ListItem>('upsertListItem'))
       );
   }
 

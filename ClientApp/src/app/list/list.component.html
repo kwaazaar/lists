@@ -1,0 +1,21 @@
+<h3>List name: {{list.name}}</h3>
+<p>Number of questions in this list: {{list.items.length}}</p>
+<div>
+  <label>Question:
+    <input #question />
+  </label>
+  <label>Answer:
+    <input #answer />
+  </label>
+  <button (click)="addQuestion(question.value, answer.value); question.value=''; answer.value='';">
+    Add
+  </button>
+</div>
+
+<p>Questions:</p>
+<ul class="lists">
+  <li *ngFor="let item of list.items">
+    <span>{{item.question}}</span>: <span>{{item.answer}}</span>
+    <button class="delete" title="delete question" (click)="delete(item.id)">X</button>
+  </li>
+</ul>
