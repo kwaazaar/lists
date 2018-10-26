@@ -11,7 +11,11 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ListService } from './services/list.service';
+
 import { MaterialModule } from './modules/material.module';
+import { ListsComponent } from './lists/lists.component';
+import { LogService } from './services/log.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,8 @@ import { MaterialModule } from './modules/material.module';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    ListsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), // Alwats keep as first module in imports
@@ -29,11 +34,12 @@ import { MaterialModule } from './modules/material.module';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'lists', component: ListsComponent },
     ]),
     BrowserAnimationsModule, // NoopAnimationsModule
     MaterialModule,
   ],
-  providers: [],
+  providers: [ LogService, ListService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
