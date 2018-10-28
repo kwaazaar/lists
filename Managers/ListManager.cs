@@ -28,10 +28,18 @@ namespace list.Managers
 
         public ListModel AddList(ListModel list)
         {
-            var maxListId = Lists.Max(l => l.Id);
+            var maxListId = Lists.Count > 0 ? Lists.Max(l => l.Id) : 0;
             list.Id = maxListId + 1;
             Lists.Add(list);
             return list;
+        }
+
+        public bool DeleteList(int listId)
+        {
+            var list = GetList(listId);
+            if (list == null) throw new ArgumentOutOfRangeException("List not found");
+
+            return Lists.Remove(list);
         }
 
         public ListItem UpsertListItem(ListItem listItem)
@@ -63,6 +71,17 @@ namespace list.Managers
         public IEnumerable<ListSummary> GetAllLists()
         {
             return Lists.Select(l => new ListSummary { Id = l.Id, Name = l.Name, ItemCount = l.Items.Count }).ToList();
+        }
+
+        public bool DeleteListItem(int listId, int listItemId)
+        {
+            var list = GetList(listId);
+            if (list == null) throw new ArgumentOutOfRangeException("List not found");
+
+            var listItem = list.Items.FirstOrDefault(li => li.Id == listItemId);
+            if (listItem == null) return false; // throw new ArgumentOutOfRangeException("ListItem not found");
+
+            return list.Items.Remove(listItem);
         }
     }
 }

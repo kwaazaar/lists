@@ -16,6 +16,6 @@
 <ul class="lists">
   <li *ngFor="let item of list.items">
     <span>{{item.question}}</span>: <span>{{item.answer}}</span>
-    <button class="delete" title="delete question" (click)="delete(item.id)">X</button>
+    <button class="delete" title="delete question" (click)="deleteQuestion(item)">X</button>
   </li>
 </ul>

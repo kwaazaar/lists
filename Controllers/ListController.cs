@@ -45,6 +45,14 @@ namespace list.Controllers
             return Ok(newList);
         }
 
+        [HttpDelete]
+        [Route("{listId:int}")]
+        public IActionResult DeleteList(int listId)
+        {
+            var deleted = _listManager.DeleteList(listId);
+            return deleted ? (IActionResult)Ok() : (IActionResult)NotFound();
+        }
+
         // POST: api/List/1
         [HttpPost]
         [Route("{listId:int}")]
@@ -55,6 +63,14 @@ namespace list.Controllers
 
             var newListItem = _listManager.UpsertListItem(listItem);
             return Ok(newListItem);
+        }
+
+        [HttpDelete]
+        [Route("{listId:int}/{listItemId:int}")]
+        public IActionResult DeleteListItem(int listId, int listItemId)
+        {
+            var deleted = _listManager.DeleteListItem(listId, listItemId);
+            return deleted ? (IActionResult)Ok() : (IActionResult)NotFound();
         }
 
         /*

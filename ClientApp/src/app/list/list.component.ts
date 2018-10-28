@@ -40,4 +40,9 @@ export class ListComponent implements OnInit {
     this.listService.upsertListItem(listItem)
       .subscribe(item => this.list.items.push(item));
   }
+
+  deleteQuestion(listItem: ListItem): void {
+    this.listService.deleteListItem(listItem)
+      .subscribe(success => this.list.items = this.list.items.filter(item => item !== listItem));
+  }
 }

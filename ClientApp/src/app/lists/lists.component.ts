@@ -36,9 +36,8 @@ export class ListsComponent implements OnInit {
       .subscribe(result => this.getListSummaries());
   }
 
-  delete(id: number): void {
-    // TODO
-    // this.listService.deleteList(id)
-    //   .subscribe(result => this.getListSummaries());
+  delete(list: ListSummary): void {
+    this.listService.deleteList(list)
+      .subscribe(deleted => this.getListSummaries()); // don't care about result
   }
 }

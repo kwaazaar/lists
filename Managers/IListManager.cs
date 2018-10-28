@@ -10,5 +10,7 @@ namespace list.Managers
 
         ListModel AddList(ListModel list);
         ListItem UpsertListItem(ListItem listItem);
+        bool DeleteListItem(int listId, int listItemId);
+        bool DeleteList(int listId);
     }
 }

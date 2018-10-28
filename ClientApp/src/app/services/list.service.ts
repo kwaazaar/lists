@@ -38,6 +38,14 @@ export class ListService {
       );
   }
 
+  deleteList(list: ListSummary): Observable<boolean> {
+    return this.http.delete(`${this.baseUrl}${this.listApiUrl}/${list.id}`)
+      .pipe(
+        tap((deleted: boolean) => this.log.info(`list ${list.name} deleted: ${deleted}`)),
+        catchError(this.handleError<boolean>('deleteList'))
+      );
+  }
+
   getList(id: number): Observable<ListModel> {
     return this.http.get(`${this.baseUrl}${this.listApiUrl}/${id}`)
       .pipe(
@@ -51,6 +59,14 @@ export class ListService {
       .pipe(
         tap((item: ListItem) => this.log.info(`listitem ${item.question} created/updated`)),
         catchError(this.handleError<ListItem>('upsertListItem'))
+      );
+  }
+
+  deleteListItem(listItem: ListItem): Observable<boolean> {
+    return this.http.delete(`${this.baseUrl}${this.listApiUrl}/${listItem.listId}/${listItem.id}`)
+      .pipe(
+        tap((deleted: boolean) => this.log.info(`listitem ${listItem.question} deleted: ${deleted}`)),
+        catchError(this.handleError<boolean>('deleteListItem'))
       );
   }
 
