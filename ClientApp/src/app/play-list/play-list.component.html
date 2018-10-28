@@ -1,0 +1,16 @@
+<div *ngIf="!list">
+  Loading list...
+</div>
+<div *ngIf="list">
+  <h3>{{list.name}}</h3>
+
+  <p *ngIf="nrPlayed > 0">Score: {{nrCorrect}}/{{nrPlayed}} ({{score}}%)</p>
+
+  <button (click)="start()">Start</button>
+  <button (click)="stop()">Stop</button>
+</div>
+
+<div *ngIf="currentQuestion">
+  <span class="question">{{currentQuestion.question}}:</span>&nbsp;
+  <input #answer (keyup.enter)="validateAnswer(answer.value); answer.value='';">
+</div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from '../services/list.service';
 import { ListModel } from '../models/list-model';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { ListItem } from '../models/list-item';
 
 @Component({

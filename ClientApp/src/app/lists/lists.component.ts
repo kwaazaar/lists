@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ListService } from '../services/list.service';
 
@@ -14,7 +15,7 @@ export class ListsComponent implements OnInit {
 
   lists: ListSummary[];
 
-  constructor(private listService: ListService) { }
+  constructor(private router: Router, private listService: ListService) { }
 
   ngOnInit() {
     this.getListSummaries();
@@ -39,5 +40,11 @@ export class ListsComponent implements OnInit {
   delete(list: ListSummary): void {
     this.listService.deleteList(list)
       .subscribe(deleted => this.getListSummaries()); // don't care about result
+  }
+
+  play(list: ListSummary): void {
+    console.log('about to play list:', list);
+    console.log('route: ', `/play/${list.id}`);
+    this.router.navigate([`/play/${list.id}`]);
   }
 }

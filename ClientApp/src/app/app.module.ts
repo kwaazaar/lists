@@ -17,6 +17,7 @@ import { MaterialModule } from './modules/material.module';
 import { ListsComponent } from './lists/lists.component';
 import { LogService } from './services/log.service';
 import { ListComponent } from './list/list.component';
+import { PlayListComponent } from './play-list/play-list.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ListComponent } from './list/list.component';
     CounterComponent,
     FetchDataComponent,
     ListsComponent,
-    ListComponent
+    ListComponent,
+    PlayListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), // Alwats keep as first module in imports
@@ -38,6 +40,7 @@ import { ListComponent } from './list/list.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'lists/:id', component: ListComponent },
+      { path: 'play/:id', component: PlayListComponent },
     ]),
     BrowserAnimationsModule, // NoopAnimationsModule
     MaterialModule,
