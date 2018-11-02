@@ -1,20 +1,54 @@
-<div>
-  <label>Name:
-    <input #listName />
-  </label>
-  <button (click)="add(listName.value); listName.value=''">
-    Add
-  </button>
-</div>
+<h3>Lists</h3>
+<div class="flex-container small-form">
 
-<p>Lists:</p>
-<ul class="lists">
-  <li *ngFor="let list of lists">
-    <a routerLink="/lists/{{list.id}}">
-      <span class="badge">{{list.id}}</span> {{list.name}}
-    </a>
-    <button class="delete" title="delete list" (click)="delete(list)">X</button>
-    &nbsp;&nbsp;
-    <button class="play" title="run test for this list" (click)="play(list)">&gt;</button>
-  </li>
-</ul>
+  <mat-expansion-panel #addListPanel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Add a new list
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div>
+      <mat-form-field appearance="standard">
+        <mat-label>Name</mat-label>
+        <input #listName matInput placeholder="Name of the new list">
+        <mat-hint>Pick a clear and unique name</mat-hint>
+      </mat-form-field>
+    </div>
+    <br/>
+    <div >
+      <button mat-flat-button color="primary" (click)="add(listName.value); listName.value=''; addListPanel.toggle();">Add</button>
+    </div>
+
+  </mat-expansion-panel>
+
+  <!--mat-card>
+    <mat-card-header>
+      <mat-card-title>Add a new list</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Name of the new list">
+          <mat-hint>Pick a clear and unique name</mat-hint>
+        </mat-form-field>
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="add(listName.value); listName.value=''">Add</button>
+    </mat-card-actions>
+  </mat-card-->
+
+  <mat-nav-list>
+    <mat-list-item *ngFor="let list of lists">
+      <a matLine routerLink="/lists/{{list.id}}">{{list.name}}</a>
+      <button mat-icon-button (click)="delete(list)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="play(list)">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-nav-list>
+</div>

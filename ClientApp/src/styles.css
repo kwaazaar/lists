@@ -2,3 +2,19 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.flex-spacer {
+    flex: 1 1 auto; /* grow shrink basis (default=0 1 auto, so allows spacer to grow) */ 
+}
+
+  
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+  
+.small-form {
+    max-width: 400px;
+}
+  

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="flex-drawer-container">
   <mat-toolbar color="primary">
     <button mat-icon-button (click)="drawer.toggle()">
       <mat-icon>menu</mat-icon>
@@ -10,7 +10,7 @@
 
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
     <mat-drawer #drawer [mode]="over">
-      <app-nav-menu></app-nav-menu>
+      <app-nav-menu onMenuSelect="drawer.toggle()"></app-nav-menu>
     </mat-drawer>
     <mat-drawer-content>
       <router-outlet></router-outlet>
