@@ -1,10 +1,19 @@
-<div class='container-fluid'>
-  <div class='row'>
-    <div class='col-sm-3'>
+<div class="container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Lists!</span>
+    <span class="flex-spacer"></span>
+    <span>Login!</span>
+  </mat-toolbar>
+
+  <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
+    <mat-drawer #drawer [mode]="over">
       <app-nav-menu></app-nav-menu>
-    </div>
-    <div class='col-sm-9 body-content'>
+    </mat-drawer>
+    <mat-drawer-content>
       <router-outlet></router-outlet>
-    </div>
-  </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>

@@ -1,6 +1,33 @@
+.flex-spacer {
+  flex: 1 1 auto; /* grow shrink basis (default=0 1 auto, so allows spacer to grow) */ 
+}
+
+mat-drawer {
+  width: 200px;
+}
+
+mat-drawer-content {
+  padding: 20px;
+}
+
+.container {
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.drawer-container {
+    flex: 1; /* grow enabled to let the drawer grow when needed */
+}
+
 @media (max-width: 767px) {
   /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
   .body-content {
-    padding-top: 50px;
+    padding-top: 60px;
   }
 }
