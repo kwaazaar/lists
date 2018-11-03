@@ -13,6 +13,7 @@ import { ListItem } from '../models/list-item';
 export class ListComponent implements OnInit {
 
   list: ListModel;
+  displayedColumns: string[] = ['question', 'answer', 'actions'];
 
   constructor(private listService: ListService, private route: ActivatedRoute, private location: Location) { }
 

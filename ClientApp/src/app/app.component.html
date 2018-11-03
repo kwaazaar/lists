@@ -10,7 +10,7 @@
 
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
     <mat-drawer #drawer [mode]="over">
-      <app-nav-menu onMenuSelect="drawer.toggle()"></app-nav-menu>
+      <app-nav-menu (navigated)="drawer.toggle();"></app-nav-menu>
     </mat-drawer>
     <mat-drawer-content>
       <router-outlet></router-outlet>

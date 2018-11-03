@@ -1,7 +1,7 @@
 <h3>Lists</h3>
 <div class="flex-container small-form">
 
-  <mat-expansion-panel #addListPanel>
+  <mat-expansion-panel #addPanel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Add a new list
@@ -17,7 +17,7 @@
     </div>
     <br/>
     <div >
-      <button mat-flat-button color="primary" (click)="add(listName.value); listName.value=''; addListPanel.toggle();">Add</button>
+      <button mat-flat-button color="primary" (click)="add(listName.value); listName.value=''; addPanel.toggle();">Add</button>
     </div>
 
   </mat-expansion-panel>

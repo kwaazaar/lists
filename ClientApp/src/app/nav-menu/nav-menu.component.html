@@ -1,33 +1,3 @@
 <mat-nav-list>
-
-    <!--a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a-->
-
-    <a mat-list-item routerLink="/"><mat-icon>home</mat-icon>&nbsp;Home</a>
-    <a mat-list-item routerLink="/counter"><mat-icon>note_add</mat-icon>&nbsp;Counter</a>
-    <a mat-list-item routerLink="/fetch-data"><mat-icon>cloud_queue</mat-icon>&nbsp;Fetch data</a>
-    <a mat-list-item routerLink="/lists"><mat-icon>list</mat-icon>&nbsp;Lists</a>
-<!--
-    <ul class='nav navbar-nav'>
-            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                <a [routerLink]='["/"]' (click)='collapse()'>
-                    <span class='glyphicon glyphicon-home'></span> Home
-                </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/counter"]' (click)='collapse()'>
-                    <span class='glyphicon glyphicon-education'></span> Counter
-                </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-                    <span class='glyphicon glyphicon-th-list'></span> Fetch data
-                </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/lists"]' (click)='collapse()'>
-                    <span class='glyphicon glyphicon-th-list'></span> Lists
-                </a>
-            </li>
-        </ul>
-    -->
+    <a mat-list-item routerLink="{{navItem.routerLink}}" (click)="toggle(navItem)" *ngFor="let navItem of navItems"><span *ngIf="navItem.icon"><mat-icon>{{navItem.icon}}</mat-icon>&nbsp;</span>{{navItem.text}}</a>
 </mat-nav-list>

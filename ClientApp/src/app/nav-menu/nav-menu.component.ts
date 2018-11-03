@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { NavItem } from './nav-item';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,10 +8,21 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
 
-  constructor(private onMenuSelect: () => void) {
+  @Output() navigated: EventEmitter<NavItem> = new EventEmitter();
+
+  navItems: NavItem[] = [
+    // text, routerLink, icon
+    new NavItem('Home', '/', 'home'),
+    new NavItem('Counter', '/counter', 'note_add'),
+    new NavItem('Weather', '/fetch-data', 'cloud_queue'),
+    new NavItem('Lists', '/lists', 'list'),
+  ];
+
+  constructor() {
   }
 
-  toggle() {
-    this.onMenuSelect();
+  toggle(navItem: NavItem): void {
+    console.log('menu toggle!');
+    this.navigated.emit(navItem);
   }
 }
