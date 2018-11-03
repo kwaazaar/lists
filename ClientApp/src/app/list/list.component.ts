@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListService } from '../services/list.service';
 import { ListModel } from '../models/list-model';
 import { Location } from '@angular/common';
@@ -14,6 +14,7 @@ export class ListComponent implements OnInit {
 
   list: ListModel;
   displayedColumns: string[] = ['question', 'answer', 'actions'];
+  @ViewChild('questionList') questionList;
 
   constructor(private listService: ListService, private route: ActivatedRoute, private location: Location) { }
 
@@ -39,7 +40,10 @@ export class ListComponent implements OnInit {
     listItem.answer = answer;
 
     this.listService.upsertListItem(listItem)
-      .subscribe(item => this.list.items.push(item));
+      .subscribe(item => {
+        this.list.items.push(item);
+        this.questionList.renderRows();
+      });
   }
 
   deleteQuestion(listItem: ListItem): void {
