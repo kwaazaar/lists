@@ -3,6 +3,8 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+table { width: 100% }
+
 .flex-spacer {
     flex: 1 1 auto; /* grow shrink basis (default=0 1 auto, so allows spacer to grow) */ 
 }

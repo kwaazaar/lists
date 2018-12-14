@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import {MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule} from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
@@ -15,7 +15,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    MatTableModule,
+    MatTableModule, MatPaginatorModule, MatSortModule,
     MatFormFieldModule,
     MatCardModule,
     MatExpansionModule,
@@ -25,7 +25,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    MatTableModule,
+    MatTableModule, MatPaginatorModule, MatSortModule,
     MatFormFieldModule,
     MatCardModule,
     MatExpansionModule,

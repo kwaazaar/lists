@@ -4,6 +4,7 @@ import { ListModel } from '../models/list-model';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ListItem } from '../models/list-item';
+import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-list',
@@ -14,7 +15,10 @@ export class ListComponent implements OnInit {
 
   list: ListModel;
   displayedColumns: string[] = ['question', 'answer', 'actions'];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('questionList') questionList;
+  dataSource: MatTableDataSource<ListItem>;
 
   constructor(private listService: ListService, private route: ActivatedRoute, private location: Location) { }
 
@@ -25,7 +29,16 @@ export class ListComponent implements OnInit {
   getListDetails(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.listService.getList(id)
-      .subscribe(item => this.list = item);
+      .subscribe(list => {
+        this.list = list;
+        this.updateDataSource(this.list.items);
+     });
+  }
+
+  private updateDataSource(items: ListItem[]): void {
+    this.dataSource = new MatTableDataSource(items);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   addQuestion(question: string, answer: string) {
@@ -42,7 +55,7 @@ export class ListComponent implements OnInit {
     this.listService.upsertListItem(listItem)
       .subscribe(item => {
         this.list.items.push(item);
-        this.questionList.renderRows();
+        this.questionList.renderRows(); // Force rerender of rows
       });
   }
 
