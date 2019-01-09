@@ -9,7 +9,7 @@
   </mat-toolbar>
 
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
-    <mat-drawer #drawer [mode]="over">
+    <mat-drawer #drawer mode="over">
       <app-nav-menu (navigated)="drawer.toggle();"></app-nav-menu>
     </mat-drawer>
     <mat-drawer-content>
