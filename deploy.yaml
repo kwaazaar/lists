@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name:  lists-web
+  labels:
+    name:  lists-web
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  lists-web
+    spec:
+      imagePullSecrets:
+        - name: docati-cr
+      containers:
+      - image:  docati.azurecr.io/list:latest
+        name:  lists-web
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "55M"
+        livenessProbe:
+          httpGet:
+            path: /api/health/live
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /api/health/ready
+            port: 80
+          initialDelaySeconds: 60
+          timeoutSeconds: 10
+        ports:
+        - containerPort:  80
+          name:  mainport
+      restartPolicy: Always
+      #imagePullPolicy: Always
