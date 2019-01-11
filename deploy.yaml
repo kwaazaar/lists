@@ -20,6 +20,7 @@ spec:
         - name: docati-cr
       containers:
       - image:  docati.azurecr.io/list:latest
+        imagePullPolicy: Always
         name:  lists-web
         resources:
           requests:
@@ -41,4 +42,3 @@ spec:
         - containerPort:  80
           name:  mainport
       restartPolicy: Always
-      imagePullPolicy: Always
