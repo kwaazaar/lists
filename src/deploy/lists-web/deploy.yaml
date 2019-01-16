@@ -22,10 +22,18 @@ spec:
       - image:  docati.azurecr.io/list:latest
         imagePullPolicy: Always
         name:  lists-web
+        args: ["--urls="http://*:80"]
         resources:
           requests:
             cpu: "20m"
             memory: "55M"
+        env:
+        - name: ASPNETCORE_URLS
+          value: "http://+:80"
+        - name: DOTNET_RUNNING_IN_CONTAINER
+          value: "true"
+        - name: DOTNET_USE_POLLING_FILE_WATCHER
+          value: "true"
         livenessProbe:
           httpGet:
             path: /api/health/live
