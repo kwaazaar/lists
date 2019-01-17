@@ -21,8 +21,8 @@ spec:
       containers:
       - image:  docati.azurecr.io/list:latest
         imagePullPolicy: Always
-        name:  lists-web
-        args: ["--urls="http://*:80"]
+        name: lists-web
+        args: ["--urls=http://*:80"]
         resources:
           requests:
             cpu: "20m"
