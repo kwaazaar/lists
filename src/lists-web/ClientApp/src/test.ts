@@ -9,10 +9,18 @@ import {
 
 declare const require: any;
 
+export function getBaseUrl() {
+  return document.getElementsByTagName('base')[0].href;
+}
+
+const providers = [
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+];
+
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
+  platformBrowserDynamicTesting(providers)
 );
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);
