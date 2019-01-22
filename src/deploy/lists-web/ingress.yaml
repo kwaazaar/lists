@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lists-web-ingress
+  namespace: lists
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: lists.docati.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: lists-web-svc
+          servicePort: http-lists-web-svc

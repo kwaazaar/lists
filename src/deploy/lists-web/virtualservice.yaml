@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: lists-web-vs
+  namespace: lists
+spec:
+  hosts:
+  - "lists.docati.com"
+  gateways:
+  - lists-web-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        port:
+          number: 80 # port of the service
+        host: lists-web-svc # name of service
