@@ -15,12 +15,13 @@ spec:
     metadata:
       labels:
         app:  lists-web
+        version: "0.1"
     spec:
       imagePullSecrets:
         - name: docati-cr
       containers:
       - image:  docati.azurecr.io/list:latest
-        imagePullPolicy: Always
+        #imagePullPolicy: Always # Always=default for images with lastest-tag
         name: lists-web
         args: ["--urls=http://*:80"]
         resources:
@@ -38,15 +39,15 @@ spec:
           httpGet:
             path: /api/health/live
             port: 80
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /api/health/ready
             port: 80
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30
           timeoutSeconds: 10
         ports:
         - containerPort:  80
-          name:  mainport
+          name:  http-main
       restartPolicy: Always
