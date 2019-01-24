@@ -4,8 +4,15 @@ metadata:
   name: lists-web-ingress
   namespace: lists
   annotations:
+    kubernetes.io/ingress.class: "nginx" # Just in case there are other ingress controllers
     ingress.kubernetes.io/rewrite-target: /
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+    certmanager.k8s.io/acme-challenge-type: http01
 spec:
+  tls:
+  - hosts:
+    - lists-ingress.docati.com
+    secretName: lists-ingress-tls
   rules:
   - host: lists-ingress.docati.com
     http:
