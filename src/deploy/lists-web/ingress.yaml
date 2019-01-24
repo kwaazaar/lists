@@ -7,10 +7,10 @@ metadata:
     ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: lists.docati.com
+  - host: lists-ingress.docati.com
     http:
       paths:
       - path: /
         backend:
           serviceName: lists-web-svc
-          servicePort: http-lists-web-svc
+          servicePort: http-lists-web

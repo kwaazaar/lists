@@ -11,4 +11,4 @@ spec:
   ports:
     - port: 80
       targetPort: http-main
-      name: http-lists-web-svc
+      name: http-lists-web
