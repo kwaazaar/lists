@@ -1,5 +1,8 @@
 <h1>Welcome!</h1>
 <p>Here you can create personal word lists that allow you to practice a new language.</p>
 
-<p>To create or access your personal word lists, you must be logged in first.</p>
-<button mat-raised-button color="accent">Sign up</button><button mat-raised-button color="primary">Login</button>
+<div *ngIf="!auth.isAuthenticated()">
+    <p>To create or access your personal word lists, you must be logged in first.</p>
+    <button mat-raised-button color="accent" (click)="auth.login()">Sign up</button><button mat-raised-button color="primary" (click)="auth.login()">Login</button>
+</div>
+<button *ngIf="auth.isAuthenticated()" mat-raised-button color="primary">Go to my word lists!</button>

@@ -9,6 +9,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ListService } from './services/list.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService as AuthGuard, AuthGuardService } from './services/auth-guard.service';
 
 import { HomeComponent } from './home/home.component';
 import { TechdetailsComponent } from './techdetails/techdetails.component';
@@ -35,14 +37,14 @@ import { PlayListComponent } from './play-list/play-list.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'techdetails', component: TechdetailsComponent },
-      { path: 'lists', component: ListsComponent },
-      { path: 'lists/:id', component: ListComponent },
-      { path: 'play/:id', component: PlayListComponent },
+      { path: 'lists', component: ListsComponent, canActivate: [AuthGuard] },
+      { path: 'lists/:id', component: ListComponent, canActivate: [AuthGuard]},
+      { path: 'play/:id', component: PlayListComponent, canActivate: [AuthGuard] },
     ]),
     BrowserAnimationsModule, // NoopAnimationsModule
     MaterialModule,
   ],
-  providers: [ LogService, ListService ],
+  providers: [ LogService, ListService, AuthService, AuthGuardService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

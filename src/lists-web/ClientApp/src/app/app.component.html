@@ -5,7 +5,8 @@
     </button>
     <span>Lists!</span>
     <span class="flex-spacer"></span>
-    <span>Login!</span>
+    <span *ngIf="!auth.isAuthenticated()">Login!</span>
+    <span *ngIf="auth.isAuthenticated()">Logout!</span>
   </mat-toolbar>
 
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
