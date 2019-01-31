@@ -1,0 +1,31 @@
+<h1>Technical Details</h1>
+<p>
+  This page summarizes the technical solutions that are used to produce this application.
+</p>
+<h2>Front-end</h2>
+<ul>
+  <li>Angular 7 is used as the base framework</li>
+  <li>Angular Material is used for web components that provide Googles' Material Design-look to the application</li>
+</ul>
+<h2>Back-end</h2>
+<ul>
+  <li>The backend consists of a REST API built with .NET Core</li>
+  <li>The backend is created using the 'Spa'-template: it does not only host the backend API,
+    but also serves the static files that represent the front-end code.</li>
+</ul>
+<h2>Build & Release</h2>
+<ul>
+    <li>GitHub is used to source repository. You can find the code <a href="https://github.com/kwaazaar/lists">here</a>.</li>
+    <li>Azure Devops is used to implement the Build and Release pipelines</li>
+    <li>The build pipeline builds the code, tests the frontend code (jasmine), tests the backend code (unittests) and published containers.</li>
+    <li>The result of the build pipeline is (as set of) Docker container(s) that are published to a private container repository (Azure Container Repository)</li>
+    <li>The release pipleline published the containers to a Kubernetes cluster using deployment definitions that are published as build artifacts.</li>
+</ul>
+
+<h2>Hosting environment</h2>
+<ul>
+  <li>The application is hosted in a Kubernetes cluster (Azure Kubernetes Service (AKS))</li>
+  <li>The site and APIs are exposed using both an nginx ingress controller and an istio ingress gateway</li>
+  <li>Istio is deployed in the Kubernetes cluster for live monitoring of the application</li>
+  <li>SSL-certificates (LetsEncrypt) are automatically obtained and refreshed using the cert-manager add-on for Kubernetes</li>
+</ul>

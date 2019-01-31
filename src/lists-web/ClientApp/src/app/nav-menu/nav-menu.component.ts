@@ -13,9 +13,8 @@ export class NavMenuComponent {
   navItems: NavItem[] = [
     // text, routerLink, icon
     new NavItem('Home', '/', 'home'),
-    new NavItem('Counter', '/counter', 'note_add'),
-    new NavItem('Weather', '/fetch-data', 'cloud_queue'),
-    new NavItem('Lists', '/lists', 'list'),
+    new NavItem('Technical Details', '/techdetails', 'category'), // category build code
+    new NavItem('My word lists', '/lists', 'list'),
   ];
 
   constructor() {

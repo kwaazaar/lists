@@ -1,0 +1,7 @@
+{
+    "files.watcherExclude": {
+        "**/bin/**": true,
+        "**/dist/**": true,
+        "**/obj/**": true
+    }
+}
