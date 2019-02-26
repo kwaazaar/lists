@@ -8,6 +8,7 @@ import { ListSummary } from '../models/list-summary';
 import { LogService } from './log.service';
 import { ListModel } from '../models/list-model';
 import { ListItem } from '../models/list-item';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,13 @@ export class ListService {
   private listApiUrl = 'api/list';
 
   private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders().set('Content-Type', 'application/json')
   };
 
-  constructor(private log: LogService, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
+  constructor(private log: LogService, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private auth: AuthService) { }
 
-  getListSummaries (): Observable<ListSummary[]> {
-    return this.http.get<ListSummary[]>(this.baseUrl + this.listApiUrl)
+  getListSummaries(): Observable<ListSummary[]> {
+    return this.http.get<ListSummary[]>(this.baseUrl + this.listApiUrl, this.createHttpOptions(true))
       .pipe(
         tap(items => this.log.info(`fetched ${items.length} result(s)`)),
         catchError(this.handleError('getListSummaries', []))
@@ -31,7 +32,7 @@ export class ListService {
   }
 
   addList(list: ListModel): Observable<ListModel> {
-    return this.http.post(this.baseUrl + this.listApiUrl, list, this.httpOptions)
+    return this.http.post(this.baseUrl + this.listApiUrl, list, this.createHttpOptions(true))
       .pipe(
         tap((item: ListModel) => this.log.info(`list ${item.name} created`)),
         catchError(this.handleError<ListModel>('addList'))
@@ -39,7 +40,7 @@ export class ListService {
   }
 
   deleteList(list: ListSummary): Observable<boolean> {
-    return this.http.delete(`${this.baseUrl}${this.listApiUrl}/${list.id}`)
+    return this.http.delete(`${this.baseUrl}${this.listApiUrl}/${list.id}`, this.createHttpOptions(true))
       .pipe(
         tap((deleted: boolean) => this.log.info(`list ${list.name} deleted: ${deleted}`)),
         catchError(this.handleError<boolean>('deleteList'))
@@ -47,7 +48,7 @@ export class ListService {
   }
 
   getList(id: number): Observable<ListModel> {
-    return this.http.get(`${this.baseUrl}${this.listApiUrl}/${id}`)
+    return this.http.get(`${this.baseUrl}${this.listApiUrl}/${id}`, this.createHttpOptions(true))
       .pipe(
         tap((item: ListModel) => this.log.info(`list ${item.name} retrieved`)),
         catchError(this.handleError<ListModel>(`getList(id=${id})`))
@@ -55,7 +56,7 @@ export class ListService {
   }
 
   upsertListItem(listItem: ListItem): Observable<ListItem> {
-    return this.http.post(`${this.baseUrl}${this.listApiUrl}/${listItem.listId}`, listItem, this.httpOptions)
+    return this.http.post(`${this.baseUrl}${this.listApiUrl}/${listItem.listId}`, listItem, this.createHttpOptions(true))
       .pipe(
         tap((item: ListItem) => this.log.info(`listitem ${item.question} created/updated`)),
         catchError(this.handleError<ListItem>('upsertListItem'))
@@ -63,7 +64,7 @@ export class ListService {
   }
 
   deleteListItem(listItem: ListItem): Observable<boolean> {
-    return this.http.delete(`${this.baseUrl}${this.listApiUrl}/${listItem.listId}/${listItem.id}`)
+    return this.http.delete(`${this.baseUrl}${this.listApiUrl}/${listItem.listId}/${listItem.id}`, this.createHttpOptions(true))
       .pipe(
         tap((deleted: boolean) => this.log.info(`listitem ${listItem.question} deleted: ${deleted}`)),
         catchError(this.handleError<boolean>('deleteListItem'))
@@ -76,7 +77,7 @@ export class ListService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: better job of transforming error for user consumption
       this.log.error(`${operation} failed: ${error.message}`);
@@ -84,5 +85,19 @@ export class ListService {
       // Let the app keep running by returning an empty result.
       return of<T>(result);
     };
+  }
+
+  private createHttpOptions(secure: boolean) {
+    const options = {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    };
+
+    if (secure) {
+      options.headers = options.headers
+        .set('Authorization', `Bearer ${this.auth.accessToken}`);
+    }
+
+    return options;
   }
 }

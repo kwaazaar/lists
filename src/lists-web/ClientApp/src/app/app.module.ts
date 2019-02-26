@@ -4,17 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
+
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './modules/material.module';
 
 import { ListService } from './services/list.service';
+import { LogService } from './services/log.service';
+import { AuthService } from './services/auth.service';
 
 import { HomeComponent } from './home/home.component';
+import { CallbackComponent } from './callback/callback.component';
 import { TechdetailsComponent } from './techdetails/techdetails.component';
-import { MaterialModule } from './modules/material.module';
 import { ListsComponent } from './lists/lists.component';
-import { LogService } from './services/log.service';
 import { ListComponent } from './list/list.component';
 import { PlayListComponent } from './play-list/play-list.component';
 
@@ -26,7 +29,8 @@ import { PlayListComponent } from './play-list/play-list.component';
     ListsComponent,
     ListComponent,
     PlayListComponent,
-    TechdetailsComponent
+    TechdetailsComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), // Alwats keep as first module in imports
@@ -34,15 +38,17 @@ import { PlayListComponent } from './play-list/play-list.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'callback', component: CallbackComponent },      
       { path: 'techdetails', component: TechdetailsComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'lists/:id', component: ListComponent },
       { path: 'play/:id', component: PlayListComponent },
+      { path: '**', redirectTo: '' }, // Unknown redirect to HomeComponent
     ]),
     BrowserAnimationsModule, // NoopAnimationsModule
     MaterialModule,
   ],
-  providers: [ LogService, ListService ],
+  providers: [ LogService, ListService, AuthService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

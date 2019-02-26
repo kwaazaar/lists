@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using list.Managers;
+﻿using list.Managers;
 using list.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace list.Controllers
 {
@@ -23,6 +20,7 @@ namespace list.Controllers
         // GET: api/List
         [HttpGet]
         [Route("")]
+        [Authorize(Policy = "ListReader")]
         public IEnumerable<ListSummary> GetListSummaries()
         {
             return _listManager.GetAllLists();
@@ -31,6 +29,7 @@ namespace list.Controllers
         // GET: api/List/1
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Policy = "ListReader")]
         public ListModel GetList(int id)
         {
             return _listManager.GetList(id);
@@ -39,6 +38,7 @@ namespace list.Controllers
         // POST: api/List
         [HttpPost]
         [Route("")]
+        [Authorize(Policy = "ListWriter")]
         public IActionResult AddList([FromBody] ListModel list)
         {
             var newList = _listManager.AddList(list);
@@ -47,6 +47,7 @@ namespace list.Controllers
 
         [HttpDelete]
         [Route("{listId:int}")]
+        [Authorize(Policy = "ListWriter")]
         public IActionResult DeleteList(int listId)
         {
             var deleted = _listManager.DeleteList(listId);
@@ -56,6 +57,7 @@ namespace list.Controllers
         // POST: api/List/1
         [HttpPost]
         [Route("{listId:int}")]
+        [Authorize(Policy = "ListWriter")]
         public IActionResult UpsertListItem(int listId, [FromBody] ListItem listItem)
         {
             if (listItem.ListId == default(int))
@@ -67,6 +69,7 @@ namespace list.Controllers
 
         [HttpDelete]
         [Route("{listId:int}/{listItemId:int}")]
+        [Authorize(Policy = "ListWriter")]
         public IActionResult DeleteListItem(int listId, int listItemId)
         {
             var deleted = _listManager.DeleteListItem(listId, listItemId);

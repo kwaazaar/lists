@@ -5,7 +5,11 @@
     </button>
     <span>Lists!</span>
     <span class="flex-spacer"></span>
-    <span>Login!</span>
+    <span *ngIf="auth.isAuthenticated()">
+      {{profile?.nickname}}
+      <button mat-raised-button color="accent" (click)="auth.logout()">Logout</button>
+    </span>
+    <span *ngIf="!auth.isAuthenticated()"><button mat-raised-button color="accent" (click)="auth.login()">Login</button></span>
   </mat-toolbar>
 
   <mat-drawer-container class="drawer-container" [hasBackdrop]="true">
