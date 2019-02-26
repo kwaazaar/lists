@@ -38,7 +38,7 @@ import { PlayListComponent } from './play-list/play-list.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'callback', component: CallbackComponent },      
+      { path: 'callback', component: CallbackComponent },
       { path: 'techdetails', component: TechdetailsComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'lists/:id', component: ListComponent },

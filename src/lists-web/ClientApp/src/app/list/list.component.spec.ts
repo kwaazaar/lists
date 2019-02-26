@@ -6,6 +6,9 @@ import { MaterialModule } from '../modules/material.module';
 import { RouterModule } from '@angular/router';
 
 import { ListComponent } from './list.component';
+import { AuthService } from '../services/auth.service';
+import { ListService } from '../services/list.service';
+import { LogService } from '../services/log.service';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -14,7 +17,7 @@ describe('ListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ NoopAnimationsModule, HttpClientModule, MaterialModule, RouterModule.forRoot([]) ],
-      declarations: [ ListComponent ]
+      declarations: [ ListComponent ], providers: [AuthService, ListService, LogService]
     })
     .compileComponents();
   }));
