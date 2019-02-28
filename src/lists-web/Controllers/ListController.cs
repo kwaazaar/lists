@@ -3,6 +3,7 @@ using list.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace list.Controllers
 {
@@ -21,36 +22,36 @@ namespace list.Controllers
         [HttpGet]
         [Route("")]
         [Authorize(Policy = "ListReader")]
-        public IEnumerable<ListSummary> GetListSummaries()
+        public Task<IEnumerable<ListSummary>> GetListSummaries()
         {
-            return _listManager.GetAllLists();
+            return _listManager.GetAllLists(this.UserId);
         }
 
         // GET: api/List/1
         [HttpGet]
         [Route("{id:int}")]
         [Authorize(Policy = "ListReader")]
-        public ListModel GetList(int id)
+        public Task<ListModel> GetList(int id)
         {
-            return _listManager.GetList(id);
+            return _listManager.GetList(this.UserId, id);
         }
 
         // POST: api/List
         [HttpPost]
         [Route("")]
         [Authorize(Policy = "ListWriter")]
-        public IActionResult AddList([FromBody] ListModel list)
+        public async Task<IActionResult> AddList([FromBody] ListModel list)
         {
-            var newList = _listManager.AddList(list);
+            var newList = await _listManager.AddList(this.UserId, list);
             return Ok(newList);
         }
 
         [HttpDelete]
         [Route("{listId:int}")]
         [Authorize(Policy = "ListWriter")]
-        public IActionResult DeleteList(int listId)
+        public async Task<IActionResult> DeleteList(int listId)
         {
-            var deleted = _listManager.DeleteList(listId);
+            var deleted = await _listManager.DeleteList(this.UserId, listId);
             return deleted ? (IActionResult)Ok() : (IActionResult)NotFound();
         }
 
@@ -58,21 +59,21 @@ namespace list.Controllers
         [HttpPost]
         [Route("{listId:int}")]
         [Authorize(Policy = "ListWriter")]
-        public IActionResult UpsertListItem(int listId, [FromBody] ListItem listItem)
+        public async Task<IActionResult> UpsertListItem(int listId, [FromBody] ListItem listItem)
         {
             if (listItem.ListId == default(int))
                 listItem.ListId = listId;
 
-            var newListItem = _listManager.UpsertListItem(listItem);
+            var newListItem = await _listManager.UpsertListItem(this.UserId, listItem);
             return Ok(newListItem);
         }
 
         [HttpDelete]
         [Route("{listId:int}/{listItemId:int}")]
         [Authorize(Policy = "ListWriter")]
-        public IActionResult DeleteListItem(int listId, int listItemId)
+        public async Task<IActionResult> DeleteListItem(int listId, int listItemId)
         {
-            var deleted = _listManager.DeleteListItem(listId, listItemId);
+            var deleted = await _listManager.DeleteListItem(this.UserId, listId, listItemId);
             return deleted ? (IActionResult)Ok() : (IActionResult)NotFound();
         }
 
@@ -102,5 +103,13 @@ namespace list.Controllers
         {
         }
         */
+
+        private string UserId
+        {
+            get
+            {
+                return User.Identity.Name;
+            }
+        }
     }
 }

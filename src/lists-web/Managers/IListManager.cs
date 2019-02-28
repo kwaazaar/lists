@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using list.Models;
 
 namespace list.Managers
 {
     public interface IListManager
     {
-        IEnumerable<ListSummary> GetAllLists();
-        ListModel GetList(int id);
+        Task<IEnumerable<ListSummary>> GetAllLists(string userId);
+        Task<ListModel> GetList(string userId, int id);
 
-        ListModel AddList(ListModel list);
-        ListItem UpsertListItem(ListItem listItem);
-        bool DeleteListItem(int listId, int listItemId);
-        bool DeleteList(int listId);
+        Task<ListModel> AddList(string userId, ListModel list);
+        Task<ListItem> UpsertListItem(string userId, ListItem listItem);
+        Task<bool> DeleteListItem(string userId, int listId, int listItemId);
+        Task<bool> DeleteList(string userId, int listId);
     }
 }

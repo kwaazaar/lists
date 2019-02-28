@@ -1,87 +1,63 @@
 ﻿using list.Models;
+using list.Storage;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using model = list.Models;
 
 namespace list.Managers
 {
     public class ListManager : IListManager
     {
-        private static List<ListModel> Lists = new List<ListModel>
-        {
-            new ListModel { Id = 1, Name = "Engels", Items = new List<ListItem>
-                {
-                    new ListItem { Id = 1, ListId = 1, Question = "Hello", Answer = "Hallo" },
-                    new ListItem { Id = 2, ListId = 1, Question = "Goodbye", Answer = "Tot ziens" },
-                    new ListItem { Id = 3, ListId = 1, Question = "Morning", Answer = "Morgen" },
-                    new ListItem { Id = 4, ListId = 1, Question = "Afternoon", Answer = "Middag" },
-                }
-            },
-            new ListModel { Id = 2, Name = "Frans", Items = new List<ListItem>() },
-        };
+        //private static List<ListModel> Lists = new List<ListModel>
+        //{
+        //    new ListModel { Id = 1, Name = "Engels", Items = new List<ListItem>
+        //        {
+        //            new ListItem { Id = 1, ListId = 1, Question = "Hello", Answer = "Hallo" },
+        //            new ListItem { Id = 2, ListId = 1, Question = "Goodbye", Answer = "Tot ziens" },
+        //            new ListItem { Id = 3, ListId = 1, Question = "Morning", Answer = "Morgen" },
+        //            new ListItem { Id = 4, ListId = 1, Question = "Afternoon", Answer = "Middag" },
+        //        }
+        //    },
+        //    new ListModel { Id = 2, Name = "Frans", Items = new List<ListItem>() },
+        //};
 
-        public ListModel GetList(int id)
+        private readonly IListStorage _storage;
+
+        public ListManager(IListStorage storage)
         {
-            return Lists.FirstOrDefault(l => l.Id == id);
+            _storage = storage;
         }
 
-        public ListModel AddList(ListModel list)
+        public Task<ListModel> GetList(string userId, int id)
         {
-            var maxListId = Lists.Count > 0 ? Lists.Max(l => l.Id) : 0;
-            list.Id = maxListId + 1;
-            Lists.Add(list);
-            return list;
+            return _storage.GetList(userId, id);
         }
 
-        public bool DeleteList(int listId)
+        public Task<ListModel> AddList(string userId, ListModel list)
         {
-            var list = GetList(listId);
-            if (list == null) throw new ArgumentOutOfRangeException("List not found");
-
-            return Lists.Remove(list);
+            return _storage.AddList(userId, list);
         }
 
-        public ListItem UpsertListItem(ListItem listItem)
+        public Task<bool> DeleteList(string userId, int listId)
+        {
+            return _storage.DeleteList(userId, listId);
+        }
+
+        public Task<model.ListItem> UpsertListItem(string userId, model.ListItem listItem)
         {
             if (listItem.ListId == default(int)) throw new ArgumentException("No listId set");
-
-            var list = GetList(listItem.ListId);
-            if (list == null) throw new ArgumentOutOfRangeException("List not found");
-
-            if (listItem.Id == default(int)) // Add
-            {
-                var maxId = list.Items.Count > 0 ? list.Items.Max(i => i.Id) : 0;
-
-                listItem.Id = maxId + 1;
-                list.Items.Add(listItem);
-            }
-            else // Update
-            {
-                var existingItem = list.Items.FirstOrDefault(i => i.Id == listItem.Id);
-                if (existingItem == null) throw new ArgumentOutOfRangeException("ListItem not found");
-                list.Items.Remove(existingItem);
-                list.Items.Add(listItem);
-                list.Items = list.Items.OrderBy(i => i.Id).ToList();
-            }
-
-            return listItem;
+            return _storage.UpsertListItem(userId, listItem);
         }
 
-        public IEnumerable<ListSummary> GetAllLists()
+        public Task<IEnumerable<ListSummary>> GetAllLists(string userId)
         {
-            return Lists.Select(l => new ListSummary { Id = l.Id, Name = l.Name, ItemCount = l.Items.Count }).ToList();
+            return _storage.GetAllLists(userId);
         }
 
-        public bool DeleteListItem(int listId, int listItemId)
+        public Task<bool> DeleteListItem(string userId, int listId, int listItemId)
         {
-            var list = GetList(listId);
-            if (list == null) throw new ArgumentOutOfRangeException("List not found");
-
-            var listItem = list.Items.FirstOrDefault(li => li.Id == listItemId);
-            if (listItem == null) return false; // throw new ArgumentOutOfRangeException("ListItem not found");
-
-            return list.Items.Remove(listItem);
+            return _storage.DeleteListItem(userId, listId, listItemId);
         }
     }
 }

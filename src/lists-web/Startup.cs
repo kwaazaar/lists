@@ -1,5 +1,6 @@
 using list.Authorization;
 using list.Managers;
+using list.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,7 @@ namespace list
         {
             services.AddTransient<IListManager, ListManager>();
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+            services.AddTransient<IListStorage, MongoDBListStorage>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
