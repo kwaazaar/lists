@@ -1,5 +1,5 @@
 export class ListSummary {
-    id: number;
-    name: string;
-    itemCount: number;
+  id: string;
+  name: string;
+  itemCount: number;
 }

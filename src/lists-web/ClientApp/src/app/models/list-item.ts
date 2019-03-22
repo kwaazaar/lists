@@ -1,7 +1,7 @@
 export class ListItem {
-    id: number;
-    listId: number;
-    question: string;
-    answer: string;
-    // TODO: value
+  id: string;
+  listId: string;
+  question: string;
+  answer: string;
+  // TODO: value
 }

@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
   }
 
   getListDetails(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
     this.listService.getList(id)
       .subscribe(list => {
         this.list = list;

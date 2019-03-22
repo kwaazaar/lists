@@ -100,6 +100,10 @@ export class AuthService {
     this._expiresAt = 0;
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
+
+    // End session with Auth0 (non-standard, but more clear here)
+    this.auth0.logout();
+
     // Go back to the home route
     this.router.navigate(['/']);
   }

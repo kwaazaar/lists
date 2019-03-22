@@ -47,7 +47,7 @@ export class ListService {
       );
   }
 
-  getList(id: number): Observable<ListModel> {
+  getList(id: string): Observable<ListModel> {
     return this.http.get(`${this.baseUrl}${this.listApiUrl}/${id}`, this.createHttpOptions(true))
       .pipe(
         tap((item: ListModel) => this.log.info(`list ${item.name} retrieved`)),

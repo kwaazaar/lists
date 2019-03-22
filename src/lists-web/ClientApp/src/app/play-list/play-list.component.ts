@@ -31,7 +31,7 @@ export class PlayListComponent implements OnInit {
   }
 
   getListDetails(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
     this.listService.getList(id)
       .subscribe(item => this.list = item);
   }

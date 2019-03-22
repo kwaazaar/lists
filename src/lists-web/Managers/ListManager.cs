@@ -29,7 +29,7 @@ namespace list.Managers
             _storage = storage;
         }
 
-        public Task<ListModel> GetList(string userId, int id)
+        public Task<ListModel> GetList(string userId, Guid id)
         {
             return _storage.GetList(userId, id);
         }
@@ -39,14 +39,14 @@ namespace list.Managers
             return _storage.AddList(userId, list);
         }
 
-        public Task<bool> DeleteList(string userId, int listId)
+        public Task<bool> DeleteList(string userId, Guid listId)
         {
             return _storage.DeleteList(userId, listId);
         }
 
         public Task<model.ListItem> UpsertListItem(string userId, model.ListItem listItem)
         {
-            if (listItem.ListId == default(int)) throw new ArgumentException("No listId set");
+            //if (listItem.ListId == default(int)) throw new ArgumentException("No listId set");
             return _storage.UpsertListItem(userId, listItem);
         }
 
@@ -55,7 +55,7 @@ namespace list.Managers
             return _storage.GetAllLists(userId);
         }
 
-        public Task<bool> DeleteListItem(string userId, int listId, int listItemId)
+        public Task<bool> DeleteListItem(string userId, Guid listId, Guid listItemId)
         {
             return _storage.DeleteListItem(userId, listId, listItemId);
         }

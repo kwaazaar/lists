@@ -2,6 +2,7 @@
 using list.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,9 +30,9 @@ namespace list.Controllers
 
         // GET: api/List/1
         [HttpGet]
-        [Route("{id:int}")]
+        [Route("{id:Guid}")]
         [Authorize(Policy = "ListReader")]
-        public Task<ListModel> GetList(int id)
+        public Task<ListModel> GetList(Guid id)
         {
             return _listManager.GetList(this.UserId, id);
         }
@@ -47,9 +48,9 @@ namespace list.Controllers
         }
 
         [HttpDelete]
-        [Route("{listId:int}")]
+        [Route("{listId:Guid}")]
         [Authorize(Policy = "ListWriter")]
-        public async Task<IActionResult> DeleteList(int listId)
+        public async Task<IActionResult> DeleteList(Guid listId)
         {
             var deleted = await _listManager.DeleteList(this.UserId, listId);
             return deleted ? (IActionResult)Ok() : (IActionResult)NotFound();
@@ -57,11 +58,11 @@ namespace list.Controllers
 
         // POST: api/List/1
         [HttpPost]
-        [Route("{listId:int}")]
+        [Route("{listId:Guid}")]
         [Authorize(Policy = "ListWriter")]
-        public async Task<IActionResult> UpsertListItem(int listId, [FromBody] ListItem listItem)
+        public async Task<IActionResult> UpsertListItem(Guid listId, [FromBody] ListItem listItem)
         {
-            if (listItem.ListId == default(int))
+            if (listItem.ListId == Guid.Empty)
                 listItem.ListId = listId;
 
             var newListItem = await _listManager.UpsertListItem(this.UserId, listItem);
@@ -69,9 +70,9 @@ namespace list.Controllers
         }
 
         [HttpDelete]
-        [Route("{listId:int}/{listItemId:int}")]
+        [Route("{listId:Guid}/{listItemId:Guid}")]
         [Authorize(Policy = "ListWriter")]
-        public async Task<IActionResult> DeleteListItem(int listId, int listItemId)
+        public async Task<IActionResult> DeleteListItem(Guid listId, Guid listItemId)
         {
             var deleted = await _listManager.DeleteListItem(this.UserId, listId, listItemId);
             return deleted ? (IActionResult)Ok() : (IActionResult)NotFound();
