@@ -1,0 +1,19 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: standard-lrs
+  annotations:
+    # https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#defaultstorageclass
+    # Default-class kan niet, ivm issue met AKS sc 'default'
+    # storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/azure-file
+mountOptions:
+  # 777 ipv de default 755, zodat ook niet-root accounts schrijfrechten hebben
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1000
+  - gid=1000
+# https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims
+allowVolumeExpansion: true
+parameters:
+  skuName: Standard_LRS
